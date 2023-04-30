@@ -1,0 +1,85 @@
+{
+  "setup":
+    {
+      "lang": { "src": "en", "tgt": "fr" },
+      "dl_dir": "/media/mtb/1268324a-8d38-4c4f-9b71-2a4ddc231fe6/dl/nmt",
+      "dataset":
+        {
+          "dir": "${setup@@@dl_dir}/en-fr/data",
+          "src":
+            {
+              "train": "${setup@@@dataset@@@dir}/train.tok.clean.bpe.40000.en",
+              "valid": "${setup@@@dataset@@@dir}/valid.tok.clean.bpe.40000.en",
+              "test": "${setup@@@dataset@@@dir}/test.tok.clean.bpe.40000.en",
+            },
+          "tgt":
+            {
+              "train": "${setup@@@dataset@@@dir}/train.tok.clean.bpe.40000.fr",
+              "valid": "${setup@@@dataset@@@dir}/valid.tok.clean.bpe.40000.fr",
+              "test": "${setup@@@dataset@@@dir}/test.tok.simplify.fr",
+            },
+          "vocab": "${setup@@@dataset@@@dir}/vocab.bpe.40000",
+          "bpe": "${setup@@@dataset@@@dir}/bpe.40000",
+        },
+    },
+
+  "model":
+    {
+      "hidden_size": 1024,
+      "num_layers": 4,
+      "dropout": 0.2,
+      "share_embedding": true,
+      "batch_first": true,
+    },
+  "training":
+    {
+      "eval": true,
+      # TODO
+      "batch_size": 128,
+      "epochs": 14,
+      "seed": 42,
+      "grad_clip": 5.,
+      "train_max_len": 64,
+      "train_min_len": 0,
+      "valid_max_len": 128,
+      "valid_min_len": 0,
+      "test_max_len": 150,
+      "test_min_len": 0,
+      "num_workers": 2,
+      "warmup_steps": 200,
+      "batching": "bucketing",
+      "num_buckets": 5,
+      "train_iter_size": 8,
+      # TODO
+      "max_size": null,
+      "start_epoch": 9
+    },
+
+  "loss": { "smoothing": 0. },
+
+  "optimizer": { "name": "Adam", "lr": 5.e-4 },
+  "scheduler": {
+  # TODO
+    "warmup_steps": 0,
+    "remain_steps": 0.3,
+    "decay_interval": null,
+    "decay_steps": 4,
+    "decay_factor": 0.5
+  },
+  "test":
+    {
+      "beam_size": 5,
+      "len_norm_factor": 0.6,
+      "len_norm_const": 5.,
+      "cov_penalty_factor": 0.1,
+    },
+
+  "checkpoint":
+    {
+      # TODO
+      "save_freq": 10000,
+      "keep_checkpoints": 10,
+      "save_dir": "${setup@@@dl_dir}/${setup@@@lang@@@src}-${setup@@@lang@@@tgt}/models/gnmt/",
+      "resume": "${checkpoint@@@save_dir}/model_best.pth",
+    },
+}
