@@ -1,0 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch
+torchvision
+torchaudio
+jupyterlab>=3.0.0,<4.0.0a0
+jupyterlab-lsp
+python-lsp-server[all]
+fairseq
+tensorboardX

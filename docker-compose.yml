@@ -1,0 +1,36 @@
+version: '3.3'
+services:
+  dl:
+    image: pytorch
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: dl_container
+    restart: always
+    dns:
+      - 8.8.8.8
+    tty: true
+    # entrypoint: entrypoint.sh
+    entrypoint: /entrypoint.sh
+     
+    volumes:
+      - type: bind
+        source: ./numeric
+        target: /numeric
+      - type: volume
+        source: venv_dl
+        target: /env_nlp
+    ports:
+      - "13500:9000"
+      - "2022:22"
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  venv_dl:
