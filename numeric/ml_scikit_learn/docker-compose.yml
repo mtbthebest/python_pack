@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  ml:
+    image: ml-scikit
+    build: 
+      context: .
+      dockerfile: ml.Dockerfile
+    container_name: ml-scikit-container
+    restart: always
+    dns:
+      - 8.8.8.8
+    tty: true
+     
+    volumes:
+      - type: volume
+        source: venv_ml
+        target: /env_ml
+
+      - type: bind
+        source: ./src
+        target: /home/ubuntu/ml_scikit_learn/src
+      - "/mnt/dl:/mnt/dl"
+    ports:
+      - "2023:22"
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  venv_ml:

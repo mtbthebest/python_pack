@@ -15,7 +15,12 @@ RUN apt  install -y \
     bzip2 \
     libx11-6 \
     build-essential \
-    screen
+    screen \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
+    graphviz \
+    libopenmpi-dev
 
 
 ARG USER=ubuntu

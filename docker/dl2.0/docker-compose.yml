@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  dl2.4:
+    image: dl2024
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: dl-2-4-container
+    restart: always
+    dns:
+      - 8.8.8.8
+    tty: true
+    entrypoint: /entrypoint.sh
+    volumes:
+      - type: bind
+        source: ../../numeric
+        target: /numeric
+      - type: volume
+        source: venv_dl_2_4
+        target: /env_dl
+      - "/mnt/dl:/mnt/dl"
+    ports:
+      - "9999:9999"
+      - "2023:22"
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  venv_dl_2_4:

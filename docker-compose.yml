@@ -20,6 +20,7 @@ services:
       - type: volume
         source: venv_dl
         target: /env_nlp
+      - "/mnt/dl:/mnt/dl"
     ports:
       - "13500:9000"
       - "2022:22"
